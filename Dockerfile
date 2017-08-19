@@ -2,13 +2,15 @@ FROM tomcat:8.0-jre8
 
 LABEL maintainer="martynas@atomgraph.com"
 
+RUN apt-get update && apt-get -y install xsltproc
+
 # USER tomcat
 
 WORKDIR $CATALINA_HOME
 
-# add Tomcat config
+# add XSLT stylesheet that makes changes to server.xsl
 
-COPY conf/server.xml conf/server.xml
+COPY server.xml.xsl conf/server.xml.xsl
 
 # add entrypoint
 
