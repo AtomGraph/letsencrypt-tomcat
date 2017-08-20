@@ -58,7 +58,7 @@ xsltproc \
   --stringparam letsencrypt.keystorePass $JKS_KEY_PASSWORD \
   --stringparam letsencrypt.keyAlias $KEY_ALIAS \
   --stringparam letsencrypt.keyPass $JKS_STORE_PASSWORD \
-  $CATALINA_HOME/conf/server.xml.xsl \
+  $CATALINA_HOME/conf/letsencrypt-tomcat.xsl \
   $CATALINA_HOME/conf/server.xml
 
 # run Tomcat

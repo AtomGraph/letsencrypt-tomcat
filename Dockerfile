@@ -8,9 +8,9 @@ RUN apt-get update && apt-get -y install xsltproc
 
 WORKDIR $CATALINA_HOME
 
-# add XSLT stylesheet that makes changes to server.xsl
+# add XSLT stylesheet that makes changes to server.xml
 
-COPY server.xml.xsl conf/server.xml.xsl
+COPY letsencrypt-tomcat.xsl conf/letsencrypt-tomcat.xsl
 
 # add entrypoint
 

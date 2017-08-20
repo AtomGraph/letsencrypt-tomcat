@@ -16,8 +16,8 @@
     <!-- disable HTTP -->
     <xsl:template match="Connector[@protocol = 'HTTP/1.1']"/>
 
-    <!-- enable HTTPS -->
-    <xsl:template match="Service/*[position() = last()]">
+    <!-- enable HTTPS if it's not already enabled -->
+    <xsl:template match="Service[not(Connector/@protocol = 'org.apache.coyote.http11.Http11NioProtocol')]/*[last()]">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>
         </xsl:copy>
