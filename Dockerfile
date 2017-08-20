@@ -2,7 +2,8 @@ FROM tomcat:8.0-jre8
 
 LABEL maintainer="martynas@atomgraph.com"
 
-RUN apt-get update && apt-get -y install xsltproc
+RUN apt-get update && \
+  apt-get -y install xsltproc
 
 # USER tomcat
 
