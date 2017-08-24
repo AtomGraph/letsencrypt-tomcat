@@ -48,7 +48,7 @@ keytool -importkeystore \
   -deststorepass $JKS_STORE_PASSWORD \
   -srckeystore $CATALINA_HOME/letsencrypt.p12 \
   -srcstorepass $PKCS12_PASSWORD \
-  -srcstoretype PKCS12 \
+  -srcstoretype PKCS12
 
 # change server configuration
 
