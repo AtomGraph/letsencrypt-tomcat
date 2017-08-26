@@ -10,3 +10,5 @@ Supported environment variables:
 * `PKCS12_PASSWORD`
 * `JKS_KEY_PASSWORD`
 * `JKS_STORE_PASSWORD`
+
+**Not tested in production yet!**
