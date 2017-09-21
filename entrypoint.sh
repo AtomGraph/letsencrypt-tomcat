@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# WORKDIR $CATALINA_HOME
+
 if [ -z "$LETSENCRYPT_CERT_DIR" ] ; then
     echo '$LETSENCRYPT_CERT_DIR not set'
     exit 1
@@ -23,12 +25,10 @@ fi
 # convert LetsEncrypt certificates
 # https://community.letsencrypt.org/t/cry-for-help-windows-tomcat-ssl-lets-encrypt/22902/4
 
-export KEY_ALIAS="letsencrypt"
-
 # remove existing keystores
 
-rm -f $CATALINA_HOME/letsencrypt.p12
-rm -f $CATALINA_HOME/letsencrypt.jks
+rm -f $P12_FILE
+rm -f $JKS_FILE
 
 # convert PEM to PKCS12
 
@@ -36,7 +36,7 @@ openssl pkcs12 -export \
   -in $LETSENCRYPT_CERT_DIR/fullchain.pem \
   -inkey $LETSENCRYPT_CERT_DIR/privkey.pem \
   -name $KEY_ALIAS \
-  -out $CATALINA_HOME/letsencrypt.p12 \
+  -out $P12_FILE \
   -password pass:$PKCS12_PASSWORD
 
 # import PKCS12 into JKS
@@ -44,22 +44,29 @@ openssl pkcs12 -export \
 keytool -importkeystore \
   -alias $KEY_ALIAS \
   -destkeypass $JKS_KEY_PASSWORD \
-  -destkeystore $CATALINA_HOME/letsencrypt.jks \
+  -destkeystore $JKS_FILE \
   -deststorepass $JKS_STORE_PASSWORD \
-  -srckeystore $CATALINA_HOME/letsencrypt.p12 \
+  -srckeystore $P12_FILE \
   -srcstorepass $PKCS12_PASSWORD \
   -srcstoretype PKCS12
 
 # change server configuration
 
 xsltproc \
-  --output $CATALINA_HOME/conf/server.xml \
-  --stringparam letsencrypt.keystoreFile letsencrypt.jks \
+  --output conf/server.xml \
+  --stringparam http.proxyName $HTTP_PROXY_NAME \
+  --stringparam http.proxyPort $HTTP_PROXY_PORT \
+  --stringparam https.port $HTTPS_PORT \
+  --stringparam https.maxThreads $HTTPS_MAX_THREADS \
+  --stringparam https.clientAuth $HTTPS_CLIENT_AUTH \
+  --stringparam https.proxyName $HTTPS_PROXY_NAME \
+  --stringparam https.proxyPort $HTTPS_PROXY_PORT \
+  --stringparam letsencrypt.keystoreFile $JKS_FILE \
   --stringparam letsencrypt.keystorePass $JKS_KEY_PASSWORD \
   --stringparam letsencrypt.keyAlias $KEY_ALIAS \
   --stringparam letsencrypt.keyPass $JKS_STORE_PASSWORD \
-  $CATALINA_HOME/conf/letsencrypt-tomcat.xsl \
-  $CATALINA_HOME/conf/server.xml
+  conf/letsencrypt-tomcat.xsl \
+  conf/server.xml
 
 # run Tomcat
 
