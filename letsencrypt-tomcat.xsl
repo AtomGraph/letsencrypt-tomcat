@@ -4,6 +4,7 @@
     
     <xsl:param name="http.proxyName"/>
     <xsl:param name="http.proxyPort"/>
+    <xsl:param name="http.redirectPort"/>
     <xsl:param name="https.port"/>
     <xsl:param name="https.maxThreads"/>
     <xsl:param name="https.clientAuth"/>
@@ -34,9 +35,9 @@
                     <xsl:value-of select="$http.proxyPort"/>
                 </xsl:attribute>
             </xsl:if>
-            <xsl:if test="$https.port">
+            <xsl:if test="$http.redirectPort">
                 <xsl:attribute name="redirectPort">
-                    <xsl:value-of select="$https.port"/>
+                    <xsl:value-of select="$http.redirectPort"/>
                 </xsl:attribute>
             </xsl:if>
 

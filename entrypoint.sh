@@ -56,6 +56,7 @@ xsltproc \
   --output conf/server.xml \
   --stringparam http.proxyName $HTTP_PROXY_NAME \
   --stringparam http.proxyPort $HTTP_PROXY_PORT \
+  --stringparam http.redirectPort $HTTPS_PORT \
   --stringparam https.port $HTTPS_PORT \
   --stringparam https.maxThreads $HTTPS_MAX_THREADS \
   --stringparam https.clientAuth $HTTPS_CLIENT_AUTH \
