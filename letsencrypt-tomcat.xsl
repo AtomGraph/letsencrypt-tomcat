@@ -25,13 +25,19 @@
     <xsl:template match="Connector[@protocol = 'HTTP/1.1']">
         <xsl:copy>
             <xsl:if test="$http.proxyName">
-                <xsl:attribute name="proxyName" value="$http.proxyName"/>
+                <xsl:attribute name="proxyName">
+                    <xsl:value-of select="$http.proxyName"/>
+                </xsl:attribute>
             </xsl:if>
             <xsl:if test="$http.proxyPort">
-                <xsl:attribute name="proxyPort" value="$http.proxyPort"/>
+                <xsl:attribute name="proxyPort">
+                    <xsl:value-of select="$http.proxyPort"/>
+                </xsl:attribute>
             </xsl:if>
             <xsl:if test="$https.port">
-                <xsl:attribute name="redirectPort" value="$https.port"/>
+                <xsl:attribute name="redirectPort">
+                    <xsl:value-of select="$https.port"/>
+                </xsl:attribute>
             </xsl:if>
 
             <xsl:apply-templates select="@*|node()"/>
@@ -50,13 +56,19 @@
                    keyAlias="{$letsencrypt.keyAlias}" keyPass="{$letsencrypt.keyPass}"
                    sslProtocol="TLS">
             <xsl:if test="$https.proxyName">
-                <xsl:attribute name="proxyName" value="$https.proxyName"/>
+                <xsl:attribute name="proxyName">
+                    <xsl:value-of select="$https.proxyName"/>
+                </xsl:attribute>
             </xsl:if>
             <xsl:if test="$https.proxyPort">
-                <xsl:attribute name="proxyPort" value="$https.proxyPort"/>
+                <xsl:attribute name="proxyPort">
+                    <xsl:value-of select="$https.proxyPort"/>
+                </xsl:attribute>
             </xsl:if>
             <xsl:if test="$https.clientAuth">
-                <xsl:attribute name="clientAuth" value="$https.clientAuth"/>
+                <xsl:attribute name="clientAuth">
+                    <xsl:value-of select="$https.clientAuth"/>
+                </xsl:attribute>
             </xsl:if>
         </Connector>
     </xsl:template>
