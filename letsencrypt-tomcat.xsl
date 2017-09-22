@@ -10,10 +10,10 @@
     <xsl:param name="https.clientAuth"/>
     <xsl:param name="https.proxyName"/>
     <xsl:param name="https.proxyPort"/>
-    <xsl:param name="letsencrypt.keystoreFile"/>
-    <xsl:param name="letsencrypt.keystorePass"/>
-    <xsl:param name="letsencrypt.keyAlias"/>
-    <xsl:param name="letsencrypt.keyPass"/>
+    <xsl:param name="https.keystoreFile"/>
+    <xsl:param name="https.keystorePass"/>
+    <xsl:param name="https.keyAlias"/>
+    <xsl:param name="https.keyPass"/>
 
     <xsl:template match="@*|node()">
         <xsl:copy>
@@ -53,8 +53,8 @@
         
         <Connector port="{$https.port}" protocol="org.apache.coyote.http11.Http11NioProtocol"
                    maxThreads="{$https.maxThreads}" SSLEnabled="true" scheme="https" secure="true"
-                   keystoreFile="{$letsencrypt.keystoreFile}" keystorePass="{$letsencrypt.keystorePass}"
-                   keyAlias="{$letsencrypt.keyAlias}" keyPass="{$letsencrypt.keyPass}"
+                   keystoreFile="{$https.keystoreFile}" keystorePass="{$https.keystorePass}"
+                   keyAlias="{$https.keyAlias}" keyPass="{$https.keyPass}"
                    sslProtocol="TLS">
             <xsl:if test="$https.proxyName">
                 <xsl:attribute name="proxyName">

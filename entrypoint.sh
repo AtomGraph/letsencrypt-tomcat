@@ -56,16 +56,16 @@ xsltproc \
   --output conf/server.xml \
   --stringparam http.proxyName $HTTP_PROXY_NAME \
   --stringparam http.proxyPort $HTTP_PROXY_PORT \
-  --stringparam http.redirectPort $HTTPS_PORT \
+  --stringparam http.redirectPort $HTTP_REDIRECT_PORT \
   --stringparam https.port $HTTPS_PORT \
   --stringparam https.maxThreads $HTTPS_MAX_THREADS \
   --stringparam https.clientAuth $HTTPS_CLIENT_AUTH \
   --stringparam https.proxyName $HTTPS_PROXY_NAME \
   --stringparam https.proxyPort $HTTPS_PROXY_PORT \
-  --stringparam letsencrypt.keystoreFile $JKS_FILE \
-  --stringparam letsencrypt.keystorePass $JKS_KEY_PASSWORD \
-  --stringparam letsencrypt.keyAlias $KEY_ALIAS \
-  --stringparam letsencrypt.keyPass $JKS_STORE_PASSWORD \
+  --stringparam https.keystoreFile $JKS_FILE \
+  --stringparam https.keystorePass $JKS_KEY_PASSWORD \
+  --stringparam https.keyAlias $KEY_ALIAS \
+  --stringparam https.keyPass $JKS_STORE_PASSWORD \
   conf/letsencrypt-tomcat.xsl \
   conf/server.xml
 
