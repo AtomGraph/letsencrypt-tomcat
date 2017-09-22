@@ -2,7 +2,7 @@
   
     <xsl:output method="xml" indent="yes"/>
     
-    <xsl:param name="http.proxyName""/>
+    <xsl:param name="http.proxyName"/>
     <xsl:param name="http.proxyPort"/>
     <xsl:param name="https.port"/>
     <xsl:param name="https.maxThreads"/>
