@@ -52,22 +52,39 @@ keytool -importkeystore \
 
 # change server configuration
 
-xsltproc \
+HTTP_PROXY_NAME_PARAM="--stringparam http.proxyName $HTTP_PROXY_NAME "
+HTTP_PROXY_PORT_PARAM="--stringparam http.proxyPort $HTTP_PROXY_PORT "
+HTTP_REDIRECT_PORT_PARAM="--stringparam http.redirectPort $HTTP_REDIRECT_PORT "
+HTTPS_PORT_PARAM="--stringparam https.port $HTTPS_PORT "
+HTTPS_MAX_THREADS_PARAM="--stringparam https.maxThreads $HTTPS_MAX_THREADS "
+HTTPS_CLIENT_AUTH_PARAM="--stringparam https.clientAuth $HTTPS_CLIENT_AUTH "
+HTTPS_PROXY_NAME_PARAM="--stringparam https.proxyName $HTTPS_PROXY_NAME "
+HTTPS_PROXY_PORT_PARAM="--stringparam https.proxyPort $HTTPS_PROXY_PORT "
+JKS_FILE_PARAM="--stringparam https.keystoreFile $JKS_FILE "
+JKS_KEY_PASSWORD_PARAM="--stringparam https.keystorePass $JKS_KEY_PASSWORD "
+KEY_ALIAS_PARAM="--stringparam https.keyAlias $KEY_ALIAS "
+JKS_STORE_PASSWORD_PARAM="--stringparam https.keyPass $JKS_STORE_PASSWORD "
+
+transform="xsltproc \
   --output conf/server.xml \
-  --stringparam http.proxyName $HTTP_PROXY_NAME \
-  --stringparam http.proxyPort $HTTP_PROXY_PORT \
-  --stringparam http.redirectPort $HTTP_REDIRECT_PORT \
-  --stringparam https.port $HTTPS_PORT \
-  --stringparam https.maxThreads $HTTPS_MAX_THREADS \
-  --stringparam https.clientAuth $HTTPS_CLIENT_AUTH \
-  --stringparam https.proxyName $HTTPS_PROXY_NAME \
-  --stringparam https.proxyPort $HTTPS_PROXY_PORT \
-  --stringparam https.keystoreFile $JKS_FILE \
-  --stringparam https.keystorePass $JKS_KEY_PASSWORD \
-  --stringparam https.keyAlias $KEY_ALIAS \
-  --stringparam https.keyPass $JKS_STORE_PASSWORD \
+  $HTTP_PROXY_NAME_PARAM \
+  $HTTP_PROXY_PORT_PARAM \
+  $HTTP_REDIRECT_PORT_PARAM \
+  $HTTPS_PORT_PARAM \
+  $HTTPS_MAX_THREADS_PARAM \
+  $HTTPS_CLIENT_AUTH_PARAM \
+  $HTTPS_PROXY_NAME_PARAM \
+  $HTTPS_PROXY_PORT_PARAM \
+  $JKS_FILE_PARAM \
+  $JKS_KEY_PASSWORD_PARAM \
+  $KEY_ALIAS_PARAM \
+  $JKS_STORE_PASSWORD_PARAM \
   conf/letsencrypt-tomcat.xsl \
-  conf/server.xml
+  conf/server.xml"
+
+echo $transform
+
+eval $transform
 
 # run Tomcat
 
