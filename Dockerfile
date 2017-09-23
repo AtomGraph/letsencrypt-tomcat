@@ -9,11 +9,15 @@ RUN apt-get update && \
 
 WORKDIR $CATALINA_HOME
 
+ENV HTTP_PORT=8080
+
 ENV HTTP_PROXY_NAME=
 
 ENV HTTP_PROXY_PORT=
 
 ENV HTTP_REDIRECT_PORT=
+
+ENV HTTP_CONNECTION_TIMEOUT=20000
 
 ENV HTTPS_PORT=8443
 
@@ -43,6 +47,6 @@ COPY letsencrypt-tomcat.xsl conf/letsencrypt-tomcat.xsl
 
 COPY entrypoint.sh entrypoint.sh
 
-EXPOSE 80 8443
+EXPOSE $HTTP_PORT $HTTPS_PORT
 
 ENTRYPOINT ["/bin/sh", "entrypoint.sh"]

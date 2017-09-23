@@ -2,9 +2,11 @@
   
     <xsl:output method="xml" indent="yes"/>
     
+    <xsl:param name="http.port"/>
     <xsl:param name="http.proxyName"/>
     <xsl:param name="http.proxyPort"/>
     <xsl:param name="http.redirectPort"/>
+    <xsl:param name="http.connectionTimeout"/>
     <xsl:param name="https.port"/>
     <xsl:param name="https.maxThreads"/>
     <xsl:param name="https.clientAuth"/>
@@ -27,6 +29,11 @@
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
 
+            <xsl:if test="$http.port">
+                <xsl:attribute name="port">
+                    <xsl:value-of select="$http.port"/>
+                </xsl:attribute>
+            </xsl:if>
             <xsl:if test="$http.proxyName">
                 <xsl:attribute name="proxyName">
                     <xsl:value-of select="$http.proxyName"/>
@@ -40,6 +47,11 @@
             <xsl:if test="$http.redirectPort">
                 <xsl:attribute name="redirectPort">
                     <xsl:value-of select="$http.redirectPort"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:if test="$http.connectionTimeout">
+                <xsl:attribute name="connectionTimeout">
+                    <xsl:value-of select="$http.connectionTimeout"/>
                 </xsl:attribute>
             </xsl:if>
 

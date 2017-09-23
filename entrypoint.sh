@@ -52,6 +52,10 @@ keytool -importkeystore \
 
 # change server configuration
 
+if [ ! -z "$HTTP_PORT" ] ; then
+    HTTP_PORT_PARAM="--stringparam http.port $HTTP_PORT "
+fi
+
 if [ ! -z "$HTTP_PROXY_NAME" ] ; then
     HTTP_PROXY_NAME_PARAM="--stringparam http.proxyName $HTTP_PROXY_NAME "
 fi
@@ -62,6 +66,10 @@ fi
 
 if [ ! -z "$HTTP_REDIRECT_PORT" ] ; then
     HTTP_REDIRECT_PORT_PARAM="--stringparam http.redirectPort $HTTP_REDIRECT_PORT "
+fi
+
+if [ ! -z "$HTTP_CONNECTION_TIMEOUT" ] ; then
+    HTTP_CONNECTION_TIMEOUT_PARAM="--stringparam http.connectionTimeout $HTTP_CONNECTION_TIMEOUT "
 fi
 
 if [ ! -z "$HTTPS_PORT" ] ; then
@@ -101,9 +109,11 @@ fi
 
 transform="xsltproc \
   --output conf/server.xml \
+  $HTTP_PORT_PARAM \
   $HTTP_PROXY_NAME_PARAM \
   $HTTP_PROXY_PORT_PARAM \
   $HTTP_REDIRECT_PORT_PARAM \
+  $HTTP_CONNECTION_TIMEOUT_PARAM \
   $HTTPS_PORT_PARAM \
   $HTTPS_MAX_THREADS_PARAM \
   $HTTPS_CLIENT_AUTH_PARAM \
