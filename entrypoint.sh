@@ -52,18 +52,52 @@ keytool -importkeystore \
 
 # change server configuration
 
-HTTP_PROXY_NAME_PARAM="--stringparam http.proxyName $HTTP_PROXY_NAME "
-HTTP_PROXY_PORT_PARAM="--stringparam http.proxyPort $HTTP_PROXY_PORT "
-HTTP_REDIRECT_PORT_PARAM="--stringparam http.redirectPort $HTTP_REDIRECT_PORT "
-HTTPS_PORT_PARAM="--stringparam https.port $HTTPS_PORT "
-HTTPS_MAX_THREADS_PARAM="--stringparam https.maxThreads $HTTPS_MAX_THREADS "
-HTTPS_CLIENT_AUTH_PARAM="--stringparam https.clientAuth $HTTPS_CLIENT_AUTH "
-HTTPS_PROXY_NAME_PARAM="--stringparam https.proxyName $HTTPS_PROXY_NAME "
-HTTPS_PROXY_PORT_PARAM="--stringparam https.proxyPort $HTTPS_PROXY_PORT "
-JKS_FILE_PARAM="--stringparam https.keystoreFile $JKS_FILE "
-JKS_KEY_PASSWORD_PARAM="--stringparam https.keystorePass $JKS_KEY_PASSWORD "
-KEY_ALIAS_PARAM="--stringparam https.keyAlias $KEY_ALIAS "
-JKS_STORE_PASSWORD_PARAM="--stringparam https.keyPass $JKS_STORE_PASSWORD "
+if [ ! -z "$HTTP_PROXY_NAME" ] ; then
+    HTTP_PROXY_NAME_PARAM="--stringparam http.proxyName $HTTP_PROXY_NAME "
+fi
+
+if [ ! -z "$HTTP_PROXY_PORT" ] ; then
+    HTTP_PROXY_PORT_PARAM="--stringparam http.proxyPort $HTTP_PROXY_PORT "
+fi
+
+if [ ! -z "$HTTP_REDIRECT_PORT" ] ; then
+    HTTP_REDIRECT_PORT_PARAM="--stringparam http.redirectPort $HTTP_REDIRECT_PORT "
+fi
+
+if [ ! -z "$HTTPS_PORT" ] ; then
+    HTTPS_PORT_PARAM="--stringparam https.port $HTTPS_PORT "
+fi
+
+if [ ! -z "$HTTPS_MAX_THREADS" ] ; then
+    HTTPS_MAX_THREADS_PARAM="--stringparam https.maxThreads $HTTPS_MAX_THREADS "
+fi
+
+if [ ! -z "$HTTPS_CLIENT_AUTH" ] ; then
+    HTTPS_CLIENT_AUTH_PARAM="--stringparam https.clientAuth $HTTPS_CLIENT_AUTH "
+fi
+
+if [ ! -z "$HTTPS_PROXY_NAME" ] ; then
+    HTTPS_PROXY_NAME_PARAM="--stringparam https.proxyName $HTTPS_PROXY_NAME "
+fi
+
+if [ ! -z "$HTTPS_PROXY_PORT" ] ; then
+    HTTPS_PROXY_PORT_PARAM="--stringparam https.proxyPort $HTTPS_PROXY_PORT "
+fi
+
+if [ ! -z "$JKS_FILE" ] ; then
+    JKS_FILE_PARAM="--stringparam https.keystoreFile $JKS_FILE "
+fi
+if [ ! -z "$JKS_KEY_PASSWORD" ] ; then
+    JKS_KEY_PASSWORD_PARAM="--stringparam https.keystorePass $JKS_KEY_PASSWORD "
+fi
+
+if [ ! -z "$KEY_ALIAS" ] ; then
+    KEY_ALIAS_PARAM="--stringparam https.keyAlias $KEY_ALIAS "
+fi
+
+if [ ! -z "$JKS_STORE_PASSWORD" ] ; then
+    JKS_STORE_PASSWORD_PARAM="--stringparam https.keyPass $JKS_STORE_PASSWORD "
+fi
 
 transform="xsltproc \
   --output conf/server.xml \
@@ -81,8 +115,6 @@ transform="xsltproc \
   $JKS_STORE_PASSWORD_PARAM \
   conf/letsencrypt-tomcat.xsl \
   conf/server.xml"
-
-echo $transform
 
 eval $transform
 
