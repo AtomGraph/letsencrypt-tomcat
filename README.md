@@ -6,9 +6,18 @@ https://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html
 https://certbot.eff.org/docs/
 
 Supported environment variables:
-* `LETSENCRYPT_CERT_DIR`
-* `PKCS12_PASSWORD`
+* `HTTP_PORT`
+* `HTTP_PROXY_NAME`
+* `HTTP_PROXY_PORT`
+* `HTTP_REDIRECT_PORT`
+* `HTTP_CONNECTION_TIMEOUT`
+* `HTTPS_PORT`
+* `HTTPS_MAX_THREADS`
+* `HTTPS_CLIENT_AUTH`
+* `HTTPS_PROXY_NAME`
+* `HTTPS_PROXY_PORT`
+* `JKS_FILE`
 * `JKS_KEY_PASSWORD`
+* `KEY_ALIAS`
 * `JKS_STORE_PASSWORD`
-
-**Not tested in production yet!**
+* `P12_FILE`

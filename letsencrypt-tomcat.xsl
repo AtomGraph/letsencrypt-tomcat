@@ -25,9 +25,6 @@
     
     <!-- redirect HTTP to HTTPS-->
     <!-- @redirectPort requires security-constraint in web.xml: https://tomcat.apache.org/tomcat-8.0-doc/config/http.html -->
-    <!-- <xsl:template match="Connector[@protocol = 'HTTP/1.1']"/> -->
-
-    <!--
     <xsl:template match="Connector[@protocol = 'HTTP/1.1']">
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
@@ -61,7 +58,6 @@
             <xsl:apply-templates select="node()"/>
         </xsl:copy>
     </xsl:template>
-    -->
 
     <!-- enable HTTPS if it's not already enabled -->
     <xsl:template match="Service[not(Connector/@protocol = 'org.apache.coyote.http11.Http11NioProtocol')]/*[last()]">
