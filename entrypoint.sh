@@ -27,83 +27,83 @@ fi
 
 # remove existing keystores
 
-rm -f $P12_FILE
-rm -f $JKS_FILE
+rm -f "$P12_FILE"
+rm -f "$JKS_FILE"
 
 # convert PEM to PKCS12
 
 openssl pkcs12 -export \
-  -in $LETSENCRYPT_CERT_DIR/fullchain.pem \
-  -inkey $LETSENCRYPT_CERT_DIR/privkey.pem \
-  -name $KEY_ALIAS \
-  -out $P12_FILE \
-  -password pass:$PKCS12_PASSWORD
+  -in "$LETSENCRYPT_CERT_DIR"/fullchain.pem \
+  -inkey "$LETSENCRYPT_CERT_DIR"/privkey.pem \
+  -name "$KEY_ALIAS" \
+  -out "$P12_FILE" \
+  -password pass:"$PKCS12_PASSWORD"
 
 # import PKCS12 into JKS
 
 keytool -importkeystore \
-  -alias $KEY_ALIAS \
-  -destkeypass $JKS_KEY_PASSWORD \
-  -destkeystore $JKS_FILE \
-  -deststorepass $JKS_STORE_PASSWORD \
-  -srckeystore $P12_FILE \
-  -srcstorepass $PKCS12_PASSWORD \
+  -alias "$KEY_ALIAS" \
+  -destkeypass "$JKS_KEY_PASSWORD" \
+  -destkeystore "$JKS_FILE" \
+  -deststorepass "$JKS_STORE_PASSWORD" \
+  -srckeystore "$P12_FILE" \
+  -srcstorepass "$PKCS12_PASSWORD" \
   -srcstoretype PKCS12
 
 # change server configuration
 
-if [ ! -z "$HTTP_PORT" ] ; then
+if [ -n "$HTTP_PORT" ] ; then
     HTTP_PORT_PARAM="--stringparam http.port $HTTP_PORT "
 fi
 
-if [ ! -z "$HTTP_PROXY_NAME" ] ; then
+if [ -n "$HTTP_PROXY_NAME" ] ; then
     HTTP_PROXY_NAME_PARAM="--stringparam http.proxyName $HTTP_PROXY_NAME "
 fi
 
-if [ ! -z "$HTTP_PROXY_PORT" ] ; then
+if [ -n "$HTTP_PROXY_PORT" ] ; then
     HTTP_PROXY_PORT_PARAM="--stringparam http.proxyPort $HTTP_PROXY_PORT "
 fi
 
-if [ ! -z "$HTTP_REDIRECT_PORT" ] ; then
+if [ -n "$HTTP_REDIRECT_PORT" ] ; then
     HTTP_REDIRECT_PORT_PARAM="--stringparam http.redirectPort $HTTP_REDIRECT_PORT "
 fi
 
-if [ ! -z "$HTTP_CONNECTION_TIMEOUT" ] ; then
+if [ -n "$HTTP_CONNECTION_TIMEOUT" ] ; then
     HTTP_CONNECTION_TIMEOUT_PARAM="--stringparam http.connectionTimeout $HTTP_CONNECTION_TIMEOUT "
 fi
 
-if [ ! -z "$HTTPS_PORT" ] ; then
+if [ -n "$HTTPS_PORT" ] ; then
     HTTPS_PORT_PARAM="--stringparam https.port $HTTPS_PORT "
 fi
 
-if [ ! -z "$HTTPS_MAX_THREADS" ] ; then
+if [ -n "$HTTPS_MAX_THREADS" ] ; then
     HTTPS_MAX_THREADS_PARAM="--stringparam https.maxThreads $HTTPS_MAX_THREADS "
 fi
 
-if [ ! -z "$HTTPS_CLIENT_AUTH" ] ; then
+if [ -n "$HTTPS_CLIENT_AUTH" ] ; then
     HTTPS_CLIENT_AUTH_PARAM="--stringparam https.clientAuth $HTTPS_CLIENT_AUTH "
 fi
 
-if [ ! -z "$HTTPS_PROXY_NAME" ] ; then
+if [ -n "$HTTPS_PROXY_NAME" ] ; then
     HTTPS_PROXY_NAME_PARAM="--stringparam https.proxyName $HTTPS_PROXY_NAME "
 fi
 
-if [ ! -z "$HTTPS_PROXY_PORT" ] ; then
+if [ -n "$HTTPS_PROXY_PORT" ] ; then
     HTTPS_PROXY_PORT_PARAM="--stringparam https.proxyPort $HTTPS_PROXY_PORT "
 fi
 
-if [ ! -z "$JKS_FILE" ] ; then
+if [ -n "$JKS_FILE" ] ; then
     JKS_FILE_PARAM="--stringparam https.keystoreFile $JKS_FILE "
 fi
-if [ ! -z "$JKS_KEY_PASSWORD" ] ; then
+if [ -n "$JKS_KEY_PASSWORD" ] ; then
     JKS_KEY_PASSWORD_PARAM="--stringparam https.keystorePass $JKS_KEY_PASSWORD "
 fi
 
-if [ ! -z "$KEY_ALIAS" ] ; then
+if [ -n "$KEY_ALIAS" ] ; then
     KEY_ALIAS_PARAM="--stringparam https.keyAlias $KEY_ALIAS "
 fi
 
-if [ ! -z "$JKS_STORE_PASSWORD" ] ; then
+if [ -n "$JKS_STORE_PASSWORD" ] ; then
     JKS_STORE_PASSWORD_PARAM="--stringparam https.keyPass $JKS_STORE_PASSWORD "
 fi
 
@@ -126,7 +126,7 @@ transform="xsltproc \
   conf/letsencrypt-tomcat.xsl \
   conf/server.xml"
 
-eval $transform
+eval "$transform"
 
 # run Tomcat
 
