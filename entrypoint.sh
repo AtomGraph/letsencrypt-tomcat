@@ -72,6 +72,10 @@ if [ -n "$HTTP_CONNECTION_TIMEOUT" ] ; then
     HTTP_CONNECTION_TIMEOUT_PARAM="--stringparam http.connectionTimeout $HTTP_CONNECTION_TIMEOUT "
 fi
 
+if [ -n "$HTTP_COMPRESSION" ] ; then
+    HTTP_COMPRESSION_PARAM="--stringparam http.compression $HTTP_COMPRESSION "
+fi
+
 if [ -n "$HTTPS_PORT" ] ; then
     HTTPS_PORT_PARAM="--stringparam https.port $HTTPS_PORT "
 fi
@@ -90,6 +94,10 @@ fi
 
 if [ -n "$HTTPS_PROXY_PORT" ] ; then
     HTTPS_PROXY_PORT_PARAM="--stringparam https.proxyPort $HTTPS_PROXY_PORT "
+fi
+
+if [ -n "$HTTPS_COMPRESSION" ] ; then
+    HTTPS_COMPRESSION_PARAM="--stringparam https.compression $HTTPS_COMPRESSION "
 fi
 
 if [ -n "$JKS_FILE" ] ; then
@@ -114,11 +122,13 @@ transform="xsltproc \
   $HTTP_PROXY_PORT_PARAM \
   $HTTP_REDIRECT_PORT_PARAM \
   $HTTP_CONNECTION_TIMEOUT_PARAM \
+  $HTTP_COMPRESSION_PARAM \
   $HTTPS_PORT_PARAM \
   $HTTPS_MAX_THREADS_PARAM \
   $HTTPS_CLIENT_AUTH_PARAM \
   $HTTPS_PROXY_NAME_PARAM \
   $HTTPS_PROXY_PORT_PARAM \
+  $HTTPS_COMPRESSION_PARAM \
   $JKS_FILE_PARAM \
   $JKS_KEY_PASSWORD_PARAM \
   $KEY_ALIAS_PARAM \

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
     <xsl:output method="xml" indent="yes"/>
@@ -7,6 +8,7 @@
     <xsl:param name="http.proxyPort"/>
     <xsl:param name="http.redirectPort"/>
     <xsl:param name="http.connectionTimeout"/>
+    <xsl:param name="http.compression"/>
     <xsl:param name="https.port"/>
     <xsl:param name="https.maxThreads"/>
     <xsl:param name="https.clientAuth"/>
@@ -16,6 +18,7 @@
     <xsl:param name="https.keystorePass"/>
     <xsl:param name="https.keyAlias"/>
     <xsl:param name="https.keyPass"/>
+    <xsl:param name="https.compression"/>
 
     <xsl:template match="@*|node()">
         <xsl:copy>
@@ -54,6 +57,11 @@
                     <xsl:value-of select="$http.connectionTimeout"/>
                 </xsl:attribute>
             </xsl:if>
+            <xsl:if test="$http.compression">
+                <xsl:attribute name="compression">
+                    <xsl:value-of select="$http.compression"/>
+                </xsl:attribute>
+            </xsl:if>
 
             <xsl:apply-templates select="node()"/>
         </xsl:copy>
@@ -83,6 +91,11 @@
             <xsl:if test="$https.clientAuth">
                 <xsl:attribute name="clientAuth">
                     <xsl:value-of select="$https.clientAuth"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:if test="$https.compression">
+                <xsl:attribute name="compression">
+                    <xsl:value-of select="$https.compression"/>
                 </xsl:attribute>
             </xsl:if>
         </Connector>
