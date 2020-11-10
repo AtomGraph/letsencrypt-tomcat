@@ -1,5 +1,5 @@
 # letsencrypt-tomcat
-Docker image combining Tomcat 8 and LetsEncrypt HTTPS certificates
+Docker image combining Tomcat 9 and LetsEncrypt HTTPS certificates
 
 ## Usage
 
@@ -34,6 +34,6 @@ Supported environment variables:
 
 ## More info
 
-https://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html
+https://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html
 
 https://certbot.eff.org/docs/
