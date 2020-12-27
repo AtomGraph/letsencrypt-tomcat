@@ -6,9 +6,9 @@ Docker image combining Tomcat 9 and LetsEncrypt HTTPS certificates
      docker run \
         -v /etc/letsencrypt:/etc/letsencrypt \
         -e LETSENCRYPT_CERT_DIR=/etc/letsencrypt \
-        -e PKCS12_PASSWORD=Marchius \
-        -e JKS_KEY_PASSWORD=Marhcius \
-        -e JKS_STORE_PASSWORD=Marchius \
+        -e PKCS12_PASSWORD=whateverest \
+        -e JKS_KEY_PASSWORD=whateverest \
+        -e JKS_STORE_PASSWORD=whateverest \
         atomgraph/letsencrypt-tomcat
 
 ## Configuration
