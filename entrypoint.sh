@@ -52,6 +52,10 @@ keytool -importkeystore \
 
 # change server configuration
 
+if [ -n "$HTTP" ] ; then
+    HTTP_PARAM="--stringparam http $HTTP "
+fi
+
 if [ -n "$HTTP_PORT" ] ; then
     HTTP_PORT_PARAM="--stringparam http.port $HTTP_PORT "
 fi
@@ -74,6 +78,10 @@ fi
 
 if [ -n "$HTTP_COMPRESSION" ] ; then
     HTTP_COMPRESSION_PARAM="--stringparam http.compression $HTTP_COMPRESSION "
+fi
+
+if [ -n "$HTTPS" ] ; then
+    HTTPS_PARAM="--stringparam https $HTTPS "
 fi
 
 if [ -n "$HTTPS_PORT" ] ; then
@@ -117,11 +125,13 @@ fi
 
 transform="xsltproc \
   --output conf/server.xml \
+  $HTTP_PARAM \
   $HTTP_PORT_PARAM \
   $HTTP_PROXY_NAME_PARAM \
   $HTTP_PROXY_PORT_PARAM \
   $HTTP_REDIRECT_PORT_PARAM \
   $HTTP_CONNECTION_TIMEOUT_PARAM \
+  $HTTPS_PARAM \
   $HTTP_COMPRESSION_PARAM \
   $HTTPS_PORT_PARAM \
   $HTTPS_MAX_THREADS_PARAM \
