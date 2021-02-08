@@ -4,6 +4,7 @@
     <xsl:output method="xml" indent="yes"/>
 
     <xsl:param name="http"/>
+    <xsl:param name="http.scheme"/>
     <xsl:param name="http.port"/>
     <xsl:param name="http.proxyName"/>
     <xsl:param name="http.proxyPort"/>
@@ -11,6 +12,7 @@
     <xsl:param name="http.connectionTimeout"/>
     <xsl:param name="http.compression"/>
     <xsl:param name="https"/>
+    <xsl:param name="https.scheme"/>
     <xsl:param name="https.port"/>
     <xsl:param name="https.maxThreads"/>
     <xsl:param name="https.clientAuth"/>
@@ -39,6 +41,11 @@
             <xsl:copy>
                 <xsl:apply-templates select="@*"/>
 
+                <xsl:if test="$http.scheme">
+                    <xsl:attribute name="scheme">
+                        <xsl:value-of select="$http.scheme"/>
+                    </xsl:attribute>
+                </xsl:if>
                 <xsl:if test="$http.port">
                     <xsl:attribute name="port">
                         <xsl:value-of select="$http.port"/>
@@ -83,11 +90,21 @@
         
         <!-- xsltproc does not support boolean parameters -->
         <xsl:if test="translate($https, $lowercase, $uppercase) = 'TRUE'">
-            <Connector port="{$https.port}" protocol="org.apache.coyote.http11.Http11NioProtocol"
-                       maxThreads="{$https.maxThreads}" SSLEnabled="true" scheme="https" secure="true"
+            <Connector protocol="org.apache.coyote.http11.Http11NioProtocol"
+                       maxThreads="{$https.maxThreads}" SSLEnabled="true" secure="true"
                        keystoreFile="{$https.keystoreFile}" keystorePass="{$https.keystorePass}"
                        keyAlias="{$https.keyAlias}" keyPass="{$https.keyPass}"
                        sslProtocol="TLS">
+                <xsl:if test="$https.scheme">
+                    <xsl:attribute name="scheme">
+                        <xsl:value-of select="$https.scheme"/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:if test="$https.port">
+                    <xsl:attribute name="port">
+                        <xsl:value-of select="$https.port"/>
+                    </xsl:attribute>
+                </xsl:if>
                 <xsl:if test="$https.proxyName">
                     <xsl:attribute name="proxyName">
                         <xsl:value-of select="$https.proxyName"/>

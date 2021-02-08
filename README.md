@@ -15,6 +15,7 @@ Docker image combining Tomcat 9 and LetsEncrypt HTTPS certificates
 
 Supported environment variables:
 * `HTTP` - enable HTTP connector? (default: `true`)
+* `HTTP_SCHEME`
 * `HTTP_PORT`
 * `HTTP_PROXY_NAME`
 * `HTTP_PROXY_PORT`
@@ -22,6 +23,7 @@ Supported environment variables:
 * `HTTP_CONNECTION_TIMEOUT`
 * `HTTP_COMPRESSION`
 * `HTTP` - enable HTTPS connector? (default: `false`)
+* `HTTPS_SCHEME`
 * `HTTPS_PORT`
 * `HTTPS_MAX_THREADS`
 * `HTTPS_CLIENT_AUTH`
