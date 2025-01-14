@@ -1,4 +1,4 @@
-FROM tomcat:10.1.4-jdk17
+FROM tomcat:10.1.34-jdk17
 
 LABEL maintainer="martynas@atomgraph.com"
 
