@@ -1,5 +1,5 @@
 # letsencrypt-tomcat
-Docker image combining Tomcat 9 and LetsEncrypt HTTPS certificates
+Docker image combining Tomcat and LetsEncrypt HTTPS certificates
 
 ## Usage
 
