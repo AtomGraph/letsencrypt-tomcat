@@ -2,6 +2,8 @@ name: ci
 
 on:
   push:
+    tags:
+      - '*'
 
 jobs:
   docker:
@@ -24,4 +26,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: atomgraph/letsencrypt-tomcat:latest
+          tags: |
+            atomgraph/letsencrypt-tomcat:latest
+            atomgraph/letsencrypt-tomcat:${{ github.ref_name }}
