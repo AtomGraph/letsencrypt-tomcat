@@ -3,26 +3,31 @@
   
     <xsl:output method="xml" indent="yes"/>
 
-    <xsl:param name="http"/>
-    <xsl:param name="http.scheme"/>
-    <xsl:param name="http.port"/>
-    <xsl:param name="http.proxyName"/>
-    <xsl:param name="http.proxyPort"/>
-    <xsl:param name="http.redirectPort"/>
-    <xsl:param name="http.connectionTimeout"/>
-    <xsl:param name="http.compression"/>
-    <xsl:param name="https"/>
-    <xsl:param name="https.scheme"/>
-    <xsl:param name="https.port"/>
-    <xsl:param name="https.maxThreads"/>
-    <xsl:param name="https.clientAuth"/>
-    <xsl:param name="https.proxyName"/>
-    <xsl:param name="https.proxyPort"/>
-    <xsl:param name="https.keystoreFile"/>
-    <xsl:param name="https.keystorePass"/>
-    <xsl:param name="https.keyAlias"/>
-    <xsl:param name="https.keyPass"/>
-    <xsl:param name="https.compression"/>
+    <xsl:param name="Connector.http"/>
+    <xsl:param name="Connector.scheme.http"/>
+    <xsl:param name="Connector.port.http"/>
+    <xsl:param name="Connector.proxyName.http"/>
+    <xsl:param name="Connector.proxyPort.http"/>
+    <xsl:param name="Connector.redirectPort.http"/>
+    <xsl:param name="Connector.connectionTimeout.http"/>
+    <xsl:param name="Connector.compression.http"/>
+    <xsl:param name="Connector.https"/>
+    <xsl:param name="Connector.scheme.https"/>
+    <xsl:param name="Connector.port.https"/>
+    <xsl:param name="Connector.maxThreads.https"/>
+    <xsl:param name="Connector.clientAuth.https"/>
+    <xsl:param name="Connector.proxyName.https"/>
+    <xsl:param name="Connector.proxyPort.https"/>
+    <xsl:param name="Connector.keystoreFile.https"/>
+    <xsl:param name="Connector.keystorePass.https"/>
+    <xsl:param name="Connector.keyAlias.https"/>
+    <xsl:param name="Connector.keyPass.https"/>
+    <xsl:param name="Connector.compression.https"/>
+    <xsl:param name="RemoteIpValve" select="'false'"/>
+    <xsl:param name="RemoteIpValve.protocolHeader" select="'X-Forwarded-Proto'"/>
+    <xsl:param name="RemoteIpValve.portHeader" select="'X-Forwarded-Port'"/>
+    <xsl:param name="RemoteIpValve.remoteIpHeader" select="'X-Forwarded-For'"/>
+    <xsl:param name="RemoteIpValve.hostHeader" select="'X-Forwarded-Host'"/>
 
     <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
     <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
@@ -37,43 +42,43 @@
     <!-- @redirectPort requires security-constraint in web.xml: https://tomcat.apache.org/tomcat-8.0-doc/config/http.html -->
     <xsl:template match="Connector[@protocol = 'HTTP/1.1']">
         <!-- xsltproc does not support boolean parameters -->
-        <xsl:if test="translate($http, $lowercase, $uppercase) = 'TRUE'">
+        <xsl:if test="translate($Connector.http, $lowercase, $uppercase) = 'TRUE'">
             <xsl:copy>
                 <xsl:apply-templates select="@*"/>
 
-                <xsl:if test="$http.scheme">
+                <xsl:if test="$Connector.scheme.http">
                     <xsl:attribute name="scheme">
-                        <xsl:value-of select="$http.scheme"/>
+                        <xsl:value-of select="$Connector.scheme.http"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$http.port">
+                <xsl:if test="$Connector.port.http">
                     <xsl:attribute name="port">
-                        <xsl:value-of select="$http.port"/>
+                        <xsl:value-of select="$Connector.port.http"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$http.proxyName">
+                <xsl:if test="$Connector.proxyName.http">
                     <xsl:attribute name="proxyName">
-                        <xsl:value-of select="$http.proxyName"/>
+                        <xsl:value-of select="$Connector.proxyName.http"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$http.proxyPort">
+                <xsl:if test="$Connector.proxyPort.http">
                     <xsl:attribute name="proxyPort">
-                        <xsl:value-of select="$http.proxyPort"/>
+                        <xsl:value-of select="$Connector.proxyPort.http"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$http.redirectPort">
+                <xsl:if test="$Connector.redirectPort.http">
                     <xsl:attribute name="redirectPort">
-                        <xsl:value-of select="$http.redirectPort"/>
+                        <xsl:value-of select="$Connector.redirectPort.http"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$http.connectionTimeout">
+                <xsl:if test="$Connector.connectionTimeout.http">
                     <xsl:attribute name="connectionTimeout">
-                        <xsl:value-of select="$http.connectionTimeout"/>
+                        <xsl:value-of select="$Connector.connectionTimeout.http"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$http.compression">
+                <xsl:if test="$Connector.compression.http">
                     <xsl:attribute name="compression">
-                        <xsl:value-of select="$http.compression"/>
+                        <xsl:value-of select="$Connector.compression.http"/>
                     </xsl:attribute>
                 </xsl:if>
 
@@ -89,39 +94,65 @@
         </xsl:copy>
         
         <!-- xsltproc does not support boolean parameters -->
-        <xsl:if test="translate($https, $lowercase, $uppercase) = 'TRUE'">
-            <Connector port="{$https.port}" protocol="org.apache.coyote.http11.Http11NioProtocol"
-                       maxThreads="{$https.maxThreads}" SSLEnabled="true" secure="true"
-                       keystoreFile="{$https.keystoreFile}" keystorePass="{$https.keystorePass}"
-                       keyAlias="{$https.keyAlias}" keyPass="{$https.keyPass}"
+        <xsl:if test="translate($Connector.https, $lowercase, $uppercase) = 'TRUE'">
+            <Connector port="{$Connector.port.https}" protocol="org.apache.coyote.http11.Http11NioProtocol"
+                       maxThreads="{$Connector.maxThreads.https}" SSLEnabled="true" secure="true"
+                       keystoreFile="{$Connector.keystoreFile.https}" keystorePass="{$Connector.keystorePass.https}"
+                       keyAlias="{$Connector.keyAlias.https}" keyPass="{$Connector.keyPass.https}"
                        sslProtocol="TLS">
-                <xsl:if test="$https.scheme">
+                <xsl:if test="$Connector.scheme.https">
                     <xsl:attribute name="scheme">
-                        <xsl:value-of select="$https.scheme"/>
+                        <xsl:value-of select="$Connector.scheme.https"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$https.proxyName">
+                <xsl:if test="$Connector.proxyName.https">
                     <xsl:attribute name="proxyName">
-                        <xsl:value-of select="$https.proxyName"/>
+                        <xsl:value-of select="$Connector.proxyName.https"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$https.proxyPort">
+                <xsl:if test="$Connector.proxyPort.https">
                     <xsl:attribute name="proxyPort">
-                        <xsl:value-of select="$https.proxyPort"/>
+                        <xsl:value-of select="$Connector.proxyPort.https"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$https.clientAuth">
+                <xsl:if test="$Connector.clientAuth.https">
                     <xsl:attribute name="clientAuth">
-                        <xsl:value-of select="$https.clientAuth"/>
+                        <xsl:value-of select="$Connector.clientAuth.https"/>
                     </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="$https.compression">
+                <xsl:if test="$Connector.compression.https">
                     <xsl:attribute name="compression">
-                        <xsl:value-of select="$https.compression"/>
+                        <xsl:value-of select="$Connector.compression.https"/>
                     </xsl:attribute>
                 </xsl:if>
             </Connector>
         </xsl:if>
     </xsl:template>
     
+    <xsl:template match="Server/Service/Engine">
+        <xsl:copy>
+            <xsl:apply-templates select="@*"/>
+
+            <!-- add RemoteIpValve if requested and not already present -->
+            <xsl:if test="translate($RemoteIpValve, $lowercase, $uppercase) = 'TRUE' and not(Valve[@className='org.apache.catalina.valves.RemoteIpValve'])">
+                <Valve className="org.apache.catalina.valves.RemoteIpValve">
+                    <xsl:attribute name="protocolHeader">
+                        <xsl:value-of select="$RemoteIpValve.protocolHeader"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="portHeader">
+                        <xsl:value-of select="$RemoteIpValve.portHeader"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="remoteIpHeader">
+                        <xsl:value-of select="$RemoteIpValve.remoteIpHeader"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="hostHeader">
+                        <xsl:value-of select="$RemoteIpValve.hostHeader"/>
+                    </xsl:attribute>
+                </Valve>
+            </xsl:if>
+
+            <xsl:apply-templates select="node()"/>
+        </xsl:copy>
+    </xsl:template>
+
 </xsl:stylesheet>
