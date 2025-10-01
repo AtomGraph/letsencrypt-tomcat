@@ -15,13 +15,15 @@ Docker image combining Tomcat and LetsEncrypt HTTPS certificates
 
 Supported environment variables:
 * `HTTP` - enable HTTP connector? (default: `true`)
+* `HTTP_SCHEME`
 * `HTTP_PORT`
 * `HTTP_PROXY_NAME`
 * `HTTP_PROXY_PORT`
 * `HTTP_REDIRECT_PORT`
 * `HTTP_CONNECTION_TIMEOUT`
 * `HTTP_COMPRESSION`
-* `HTTP` - enable HTTPS connector? (default: `false`)
+* `HTTPS` - enable HTTPS connector? (default: `false`)
+* `HTTPS_SCHEME`
 * `HTTPS_PORT`
 * `HTTPS_MAX_THREADS`
 * `HTTPS_CLIENT_AUTH`
@@ -33,6 +35,11 @@ Supported environment variables:
 * `KEY_ALIAS`
 * `JKS_STORE_PASSWORD`
 * `P12_FILE`
+* `REMOTE_IP_VALVE` - enable `RemoteIpValve`? (default: `false`)
+* `REMOTE_IP_VALVE_PROTOCOL_HEADER` - protocol header name (default: `X-Forwarded-Proto`)
+* `REMOTE_IP_VALVE_PORT_HEADER` - port header name (default: `X-Forwarded-Port`)
+* `REMOTE_IP_VALVE_REMOTE_IP_HEADER` - remote IP header name (default: `X-Forwarded-For`)
+* `REMOTE_IP_VALVE_HOST_HEADER` - host header name (default: `X-Forwarded-Host`)
 
 ## More info
 
