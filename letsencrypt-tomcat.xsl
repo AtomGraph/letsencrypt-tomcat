@@ -87,14 +87,33 @@
         </xsl:if>
     </xsl:template>
 
-    <!-- enable HTTPS if it's not already enabled -->
-    <xsl:template match="Service[not(Connector/@protocol = 'org.apache.coyote.http11.Http11NioProtocol')]/*[last()]">
+    <xsl:template match="Server/Service/Engine">
         <xsl:copy>
-            <xsl:apply-templates select="@*|node()"/>
+            <xsl:apply-templates select="@*"/>
+
+            <!-- add RemoteIpValve if requested and not already present -->
+            <xsl:if test="translate($RemoteIpValve, $lowercase, $uppercase) = 'TRUE' and not(Valve[@className='org.apache.catalina.valves.RemoteIpValve'])">
+                <Valve className="org.apache.catalina.valves.RemoteIpValve">
+                    <xsl:attribute name="protocolHeader">
+                        <xsl:value-of select="$RemoteIpValve.protocolHeader"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="portHeader">
+                        <xsl:value-of select="$RemoteIpValve.portHeader"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="remoteIpHeader">
+                        <xsl:value-of select="$RemoteIpValve.remoteIpHeader"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="hostHeader">
+                        <xsl:value-of select="$RemoteIpValve.hostHeader"/>
+                    </xsl:attribute>
+                </Valve>
+            </xsl:if>
+
+            <xsl:apply-templates select="node()"/>
         </xsl:copy>
-        
-        <!-- xsltproc does not support boolean parameters -->
-        <xsl:if test="translate($Connector.https, $lowercase, $uppercase) = 'TRUE'">
+
+        <!-- add HTTPS connector after Engine if not already present -->
+        <xsl:if test="not(../Connector[@protocol = 'org.apache.coyote.http11.Http11NioProtocol']) and translate($Connector.https, $lowercase, $uppercase) = 'TRUE'">
             <Connector port="{$Connector.port.https}" protocol="org.apache.coyote.http11.Http11NioProtocol"
                        maxThreads="{$Connector.maxThreads.https}" SSLEnabled="true" secure="true"
                        keystoreFile="{$Connector.keystoreFile.https}" keystorePass="{$Connector.keystorePass.https}"
@@ -127,32 +146,6 @@
                 </xsl:if>
             </Connector>
         </xsl:if>
-    </xsl:template>
-    
-    <xsl:template match="Server/Service/Engine">
-        <xsl:copy>
-            <xsl:apply-templates select="@*"/>
-
-            <!-- add RemoteIpValve if requested and not already present -->
-            <xsl:if test="translate($RemoteIpValve, $lowercase, $uppercase) = 'TRUE' and not(Valve[@className='org.apache.catalina.valves.RemoteIpValve'])">
-                <Valve className="org.apache.catalina.valves.RemoteIpValve">
-                    <xsl:attribute name="protocolHeader">
-                        <xsl:value-of select="$RemoteIpValve.protocolHeader"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="portHeader">
-                        <xsl:value-of select="$RemoteIpValve.portHeader"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="remoteIpHeader">
-                        <xsl:value-of select="$RemoteIpValve.remoteIpHeader"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="hostHeader">
-                        <xsl:value-of select="$RemoteIpValve.hostHeader"/>
-                    </xsl:attribute>
-                </Valve>
-            </xsl:if>
-
-            <xsl:apply-templates select="node()"/>
-        </xsl:copy>
     </xsl:template>
 
 </xsl:stylesheet>
